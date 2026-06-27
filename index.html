@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bruwon™ — Pistachio Kunafa Chocolate</title>
+<meta name="description" content="Bruwon — a bar built to be broken. Toasted kunafa, single-origin chocolate and a molten pistachio core. Handcrafted in small batches." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   BRUWON — Tokens
+   ============================================================ */
+:root{
+  --choc-950:#160B05;
+  --choc-900:#1C0F07;
+  --choc-850:#241407;
+  --choc-800:#2C1810;
+  --choc-700:#3B2414;
+  --choc-600:#54331C;
+  --choc-500:#724528;   /* brand brown (logo bg) */
+  --choc-400:#8A5836;
+  --cream:#E7C188;      /* brand cream (logo text) */
+  --cream-lt:#F0DAB2;
+  --cream-50:#FBF4E7;
+  --pist:#A9BD6E;       /* pistachio */
+  --pist-dk:#7F9650;
+  --pist-deep:#5C7039;
+  --gold:#CBA15A;       /* kunafa gold */
+  --gold-lt:#E0BE7E;
+  --line:rgba(231,193,136,.16);
+  --line-strong:rgba(231,193,136,.30);
+
+  --ff-display:"Archivo", system-ui, sans-serif;
+  --ff-serif:"Cormorant Garamond", Georgia, serif;
+
+  --maxw:1280px;
+  --pad:clamp(20px, 5vw, 80px);
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+
+/* ============================================================
+   Reset / base
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--ff-display);
+  background:var(--choc-900);
+  color:var(--cream-50);
+  line-height:1.55;
+  font-weight:400;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+::selection{background:var(--pist);color:var(--choc-900)}
+
+/* grain overlay */
+.grain{
+  position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad)}
+
+/* eyebrow / label */
+.eyebrow{
+  font-size:clamp(11px,1.1vw,13px);
+  font-weight:700;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--gold);display:inline-flex;align-items:center;gap:.8em;
+}
+.eyebrow::before{content:"";width:26px;height:1.5px;background:var(--gold);display:inline-block;opacity:.7}
+
+h1,h2,h3{font-weight:800;line-height:1.02;letter-spacing:-.02em}
+.serif{font-family:var(--ff-serif);font-weight:500;letter-spacing:0}
+
+/* buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.7em;
+  font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;
+  padding:18px 32px;border-radius:100px;position:relative;overflow:hidden;
+  transition:transform .5s var(--ease-out), color .4s ease, box-shadow .5s ease;
+  white-space:nowrap;
+}
+.btn--solid{background:var(--cream);color:var(--choc-900);box-shadow:0 10px 30px -12px rgba(231,193,136,.5)}
+.btn--solid::after{content:"";position:absolute;inset:0;background:var(--pist);transform:translateY(101%);transition:transform .55s var(--ease-out);z-index:-1}
+.btn--solid:hover{color:var(--choc-900);box-shadow:0 16px 40px -14px rgba(169,189,110,.65)}
+.btn--solid:hover::after{transform:translateY(0)}
+.btn--ghost{border:1.5px solid var(--line-strong);color:var(--cream);background:transparent}
+.btn--ghost:hover{border-color:var(--cream);background:rgba(231,193,136,.07)}
+.btn .arrow{transition:transform .5s var(--ease-out)}
+.btn:hover .arrow{transform:translateX(5px)}
+.btn:active{transform:scale(.97)}
+
+:focus-visible{outline:2.5px solid var(--pist);outline-offset:3px;border-radius:4px}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px var(--pad);
+  transition:background .5s ease, padding .5s ease, border-color .5s ease, backdrop-filter .5s ease;
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{
+  background:rgba(22,11,5,.82);backdrop-filter:blur(14px) saturate(140%);
+  padding-top:14px;padding-bottom:14px;border-bottom:1px solid var(--line);
+}
+.logo{
+  font-family:var(--ff-display);font-weight:800;font-size:clamp(22px,2.4vw,28px);
+  letter-spacing:-.045em;color:var(--cream);line-height:1;position:relative;
+}
+.logo sup{font-size:.4em;font-weight:600;top:-1.1em;left:.05em;letter-spacing:0}
+.logo:hover{color:var(--cream-50)}
+
+.nav-links{display:flex;align-items:center;gap:38px;list-style:none}
+.nav-links a{
+  font-size:13.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--cream-lt);position:relative;padding:4px 0;transition:color .3s ease;
+}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1.5px;background:var(--gold);transition:width .4s var(--ease-out)}
+.nav-links a:hover{color:var(--cream)}
+.nav-links a:hover::after{width:100%}
+
+.nav-right{display:flex;align-items:center;gap:20px}
+.cart-btn{position:relative;display:flex;align-items:center;gap:9px;padding:10px 18px;border-radius:100px;border:1.5px solid var(--line-strong);transition:border-color .35s ease,background .35s ease;font-size:13px;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.cart-btn:hover{border-color:var(--cream);background:rgba(231,193,136,.06)}
+.cart-btn svg{width:18px;height:18px;stroke:var(--cream)}
+.cart-count{
+  position:absolute;top:-7px;right:-7px;min-width:21px;height:21px;padding:0 5px;
+  background:var(--pist);color:var(--choc-900);border-radius:100px;
+  font-size:11px;font-weight:800;display:grid;place-items:center;
+  transform:scale(0);transition:transform .4s var(--ease-out);
+}
+.cart-count.show{transform:scale(1)}
+.cart-count.bump{animation:bump .45s var(--ease-out)}
+@keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.45)}100%{transform:scale(1)}}
+
+.burger{display:none;flex-direction:column;gap:5px;padding:8px;border-radius:8px}
+.burger span{width:24px;height:2px;background:var(--cream);border-radius:2px;transition:.4s var(--ease)}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative;min-height:100svh;display:flex;align-items:center;
+  padding-top:120px;padding-bottom:60px;overflow:hidden;
+  background:
+    radial-gradient(120% 90% at 80% 10%, rgba(114,69,40,.55) 0%, transparent 55%),
+    radial-gradient(90% 80% at 8% 90%, rgba(169,189,110,.10) 0%, transparent 50%),
+    linear-gradient(160deg,#1C0F07 0%, #241407 55%, #160B05 100%);
+}
+.hero-glow{position:absolute;width:680px;height:680px;border-radius:50%;background:radial-gradient(circle,rgba(203,161,90,.18),transparent 65%);top:-10%;right:-8%;filter:blur(20px);pointer-events:none}
+.hero-grid{
+  position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;width:100%;
+}
+.hero-copy{max-width:620px}
+.hero h1{
+  font-size:clamp(46px,7.6vw,108px);font-weight:900;letter-spacing:-.035em;
+  margin:24px 0 22px;color:var(--cream-50);
+}
+.hero h1 .gleam{
+  background:linear-gradient(100deg,var(--pist) 0%, var(--gold-lt) 50%, var(--pist) 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  font-style:italic;font-family:var(--ff-serif);font-weight:600;letter-spacing:-.01em;
+  display:inline-block;
+}
+.hero-sub{font-size:clamp(16px,1.6vw,19px);color:var(--cream-lt);max-width:480px;margin-bottom:38px;line-height:1.65}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+
+.hero-meta{display:flex;gap:30px;margin-top:46px;padding-top:30px;border-top:1px solid var(--line)}
+.hero-meta div{display:flex;flex-direction:column;gap:3px}
+.hero-meta .n{font-size:clamp(24px,3vw,34px);font-weight:800;color:var(--cream);letter-spacing:-.02em;line-height:1}
+.hero-meta .l{font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+
+/* hero visual */
+.hero-visual{position:relative;display:flex;justify-content:center;align-items:center}
+.hero-visual .ring{
+  position:absolute;width:min(46vw,540px);aspect-ratio:1;border:1px solid var(--line);border-radius:50%;
+  display:grid;place-items:center;
+}
+.hero-visual .ring::before{content:"";position:absolute;width:78%;aspect-ratio:1;border:1px dashed rgba(203,161,90,.22);border-radius:50%}
+.rot-text{position:absolute;width:min(50vw,580px);aspect-ratio:1;animation:spin 38s linear infinite;pointer-events:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.rot-text text{fill:var(--gold);font-size:12.5px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;font-family:var(--ff-display)}
+.hero-bar{width:min(42vw,500px);position:relative;z-index:3;filter:drop-shadow(0 40px 50px rgba(0,0,0,.55))}
+
+.scroll-cue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--cream-lt);font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+.scroll-cue .mouse{width:24px;height:38px;border:1.5px solid var(--line-strong);border-radius:14px;display:flex;justify-content:center;padding-top:7px}
+.scroll-cue .mouse i{width:3px;height:7px;border-radius:3px;background:var(--gold);animation:wheel 1.7s var(--ease) infinite}
+@keyframes wheel{0%{opacity:0;transform:translateY(-3px)}40%{opacity:1}100%{opacity:0;transform:translateY(10px)}}
+
+/* ============================================================
+   MARQUEE
+   ============================================================ */
+.marquee{
+  background:var(--cream);color:var(--choc-800);overflow:hidden;
+  padding:18px 0;border-top:1px solid rgba(44,24,16,.12);border-bottom:1px solid rgba(44,24,16,.12);
+  white-space:nowrap;position:relative;
+}
+.marquee-track{display:inline-flex;align-items:center;animation:marq 30s linear infinite;will-change:transform}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee span{font-size:clamp(18px,2.4vw,30px);font-weight:800;letter-spacing:-.01em;text-transform:uppercase;display:inline-flex;align-items:center}
+.marquee .dot{width:9px;height:9px;border-radius:50%;background:var(--pist-dk);margin:0 28px;flex:none}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ============================================================
+   SECTION shell
+   ============================================================ */
+.section{padding:clamp(80px,11vw,150px) 0;position:relative}
+.section-head{max-width:760px;margin-bottom:clamp(48px,6vw,80px)}
+.section-head h2{font-size:clamp(34px,5.4vw,72px);margin-top:18px;letter-spacing:-.03em}
+.section-head p{font-size:clamp(15px,1.5vw,18px);color:var(--cream-lt);margin-top:22px;max-width:560px;line-height:1.7}
+.center{text-align:center;margin-inline:auto}
+.center .eyebrow{justify-content:center}
+
+/* STORY */
+.story{background:linear-gradient(180deg,#160B05,#1C0F07)}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,90px);align-items:center}
+.story-text h2{font-size:clamp(30px,4.4vw,58px);letter-spacing:-.03em;margin:20px 0 26px}
+.story-text .lead{font-family:var(--ff-serif);font-size:clamp(20px,2.4vw,28px);font-style:italic;color:var(--cream);line-height:1.4;margin-bottom:24px}
+.story-text p{color:var(--cream-lt);margin-bottom:18px;line-height:1.75;font-size:16px}
+.sign{margin-top:30px;font-family:var(--ff-serif);font-size:26px;font-style:italic;color:var(--gold)}
+.story-visual{position:relative;aspect-ratio:4/5;border-radius:20px;overflow:hidden;border:1px solid var(--line);
+  background:radial-gradient(120% 100% at 50% 0%, rgba(114,69,40,.7), #1C0F07 70%);
+  display:grid;place-items:center;padding:8%}
+.story-visual::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(22,11,5,.5))}
+.story-badge{position:absolute;bottom:22px;left:22px;z-index:2;background:rgba(22,11,5,.7);border:1px solid var(--line);backdrop-filter:blur(6px);border-radius:14px;padding:14px 18px}
+.story-badge .b1{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.story-badge .b2{font-family:var(--ff-serif);font-style:italic;font-size:20px;color:var(--cream);margin-top:2px}
+
+/* CRAFT pillars */
+.craft{background:var(--choc-800)}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.pillar{
+  background:linear-gradient(170deg,rgba(114,69,40,.30),rgba(28,15,7,.4));
+  border:1px solid var(--line);border-radius:20px;padding:38px 32px;position:relative;overflow:hidden;
+  transition:transform .55s var(--ease-out),border-color .45s ease,background .45s ease;
+}
+.pillar::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 0%,rgba(169,189,110,.12),transparent 60%);opacity:0;transition:opacity .5s ease}
+.pillar:hover{transform:translateY(-8px);border-color:var(--line-strong)}
+.pillar:hover::before{opacity:1}
+.pillar .ic{width:60px;height:60px;margin-bottom:26px;display:grid;place-items:center;border-radius:16px;background:rgba(231,193,136,.08);border:1px solid var(--line)}
+.pillar .ic svg{width:32px;height:32px}
+.pillar .num{position:absolute;top:26px;right:30px;font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.1em;opacity:.7}
+.pillar h3{font-size:23px;margin-bottom:12px;letter-spacing:-.01em}
+.pillar p{color:var(--cream-lt);font-size:15px;line-height:1.7}
+
+/* KUNAFA divider */
+.kunafa-divider{padding:34px var(--pad);background:var(--choc-800)}
+.kunafa-divider svg{width:100%;height:34px;display:block;opacity:.7}
+
+/* ============================================================
+   SHOP — light boutique section
+   ============================================================ */
+.shop{background:linear-gradient(180deg,#F0DAB2 0%, #FBF4E7 38%, #F4E6CB 100%);color:var(--choc-800)}
+.shop .eyebrow{color:var(--choc-500)}
+.shop .eyebrow::before{background:var(--choc-500)}
+.shop .section-head h2{color:var(--choc-900)}
+.shop .section-head p{color:var(--choc-600)}
+.products{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+.product{
+  background:#fff;border:1px solid rgba(114,69,40,.14);border-radius:24px;overflow:hidden;
+  display:flex;flex-direction:column;position:relative;
+  box-shadow:0 24px 60px -34px rgba(60,34,16,.4);
+  transition:transform .55s var(--ease-out),box-shadow .55s ease;
+}
+.product:hover{transform:translateY(-10px);box-shadow:0 40px 80px -36px rgba(60,34,16,.5)}
+.product-media{
+  position:relative;aspect-ratio:16/12;display:grid;place-items:center;overflow:hidden;
+  background:radial-gradient(120% 110% at 50% 22%, #3B2414 0%, #241407 72%);
+}
+.product-media .pglow{position:absolute;width:80%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(203,161,90,.20),transparent 65%);top:6%}
+.product-media svg.pbar{width:64%;position:relative;z-index:2;filter:drop-shadow(0 24px 24px rgba(0,0,0,.45));transition:transform .6s var(--ease-out)}
+.product:hover .product-media svg.pbar{transform:rotate(-3deg) scale(1.05)}
+.tag{position:absolute;top:16px;left:16px;z-index:3;background:var(--pist);color:var(--choc-900);font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;border-radius:100px}
+.tag.dark{background:var(--choc-800);color:var(--cream)}
+.product-body{padding:30px 30px 32px;display:flex;flex-direction:column;flex:1}
+.product-body .row{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:8px}
+.product-body h3{font-size:25px;color:var(--choc-900);letter-spacing:-.02em;line-height:1.1}
+.product-body .price{font-size:24px;font-weight:800;color:var(--choc-600);white-space:nowrap}
+.product-body .desc{color:var(--choc-500);font-size:14.5px;line-height:1.65;margin-bottom:18px}
+.notes{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.notes span{font-size:11.5px;font-weight:600;letter-spacing:.04em;color:var(--choc-600);background:rgba(114,69,40,.08);border:1px solid rgba(114,69,40,.14);padding:6px 12px;border-radius:100px}
+.product .add{
+  margin-top:auto;width:100%;background:var(--choc-800);color:var(--cream);
+  padding:17px;border-radius:14px;font-weight:700;font-size:14px;letter-spacing:.05em;text-transform:uppercase;
+  display:flex;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden;
+  transition:transform .4s var(--ease-out);
+}
+.product .add::after{content:"";position:absolute;inset:0;background:var(--choc-500);transform:translateY(101%);transition:transform .5s var(--ease-out);z-index:0}
+.product .add span,.product .add svg{position:relative;z-index:1}
+.product .add:hover::after{transform:translateY(0)}
+.product .add:active{transform:scale(.98)}
+.product .add svg{width:18px;height:18px}
+.shop-note{text-align:center;margin-top:50px;color:var(--choc-500);font-size:14px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.shop-note svg{width:16px;height:16px;stroke:var(--choc-500)}
+
+/* ============================================================
+   PROCESS
+   ============================================================ */
+.process{background:linear-gradient(180deg,#1C0F07,#241407)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line)}
+.step{padding:40px 26px 10px;border-right:1px solid var(--line);position:relative}
+.step:last-child{border-right:none}
+.step .sn{font-family:var(--ff-serif);font-size:clamp(50px,6vw,86px);font-weight:600;color:transparent;-webkit-text-stroke:1.2px var(--gold);line-height:.9;margin-bottom:24px}
+.step h3{font-size:20px;margin-bottom:12px}
+.step p{color:var(--cream-lt);font-size:14.5px;line-height:1.65}
+.step .dot{position:absolute;top:-6px;left:26px;width:11px;height:11px;border-radius:50%;background:var(--gold)}
+
+/* ============================================================
+   STATS
+   ============================================================ */
+.stats{background:var(--choc-500);color:var(--cream-50)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;text-align:center}
+.stat .v{font-size:clamp(40px,5.4vw,76px);font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--cream-50)}
+.stat .v .u{font-size:.5em;font-weight:700;color:var(--cream-lt)}
+.stat .k{margin-top:12px;font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(251,244,231,.78)}
+
+/* ============================================================
+   QUOTE
+   ============================================================ */
+.quote{background:linear-gradient(180deg,#160B05,#1C0F07);text-align:center}
+.quote .mark{font-family:var(--ff-serif);font-size:120px;line-height:.4;color:var(--pist);height:60px;display:block}
+.quote blockquote{font-family:var(--ff-serif);font-size:clamp(26px,4vw,52px);font-style:italic;font-weight:500;line-height:1.25;color:var(--cream);max-width:980px;margin:30px auto 36px;letter-spacing:-.01em}
+.quote blockquote em{color:var(--pist);font-style:italic}
+.quote .who{font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.quote .who span{display:block;color:var(--cream-lt);font-weight:500;letter-spacing:.05em;text-transform:none;font-size:14px;margin-top:6px;font-family:var(--ff-serif);font-style:italic}
+
+/* ============================================================
+   CTA
+   ============================================================ */
+.cta{background:linear-gradient(150deg,#2C1810 0%, #54331C 60%, #2C1810 100%);position:relative;overflow:hidden}
+.cta::before{content:"";position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(169,189,110,.16),transparent 65%);top:-40%;left:-10%}
+.cta-inner{position:relative;z-index:2;max-width:720px;margin-inline:auto;text-align:center}
+.cta h2{font-size:clamp(34px,5.4vw,68px);letter-spacing:-.03em;margin:20px 0 18px}
+.cta p{color:var(--cream-lt);font-size:17px;margin-bottom:36px;max-width:480px;margin-inline:auto}
+.signup{display:flex;gap:12px;max-width:480px;margin:0 auto;flex-wrap:wrap}
+.signup input{
+  flex:1;min-width:200px;padding:18px 22px;border-radius:100px;border:1.5px solid var(--line-strong);
+  background:rgba(22,11,5,.45);color:var(--cream-50);font-family:inherit;font-size:15px;
+}
+.signup input::placeholder{color:rgba(240,218,178,.55)}
+.signup input:focus{outline:none;border-color:var(--pist)}
+.cta-msg{margin-top:18px;font-size:14px;color:var(--pist);min-height:20px;font-weight:600;opacity:0;transition:opacity .4s ease}
+.cta-msg.show{opacity:1}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{background:var(--choc-950);padding-top:clamp(70px,8vw,110px)}
+.footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:60px;border-bottom:1px solid var(--line)}
+.footer-brand .logo{font-size:34px;margin-bottom:18px;display:inline-block}
+.footer-brand p{color:var(--cream-lt);font-size:14.5px;max-width:280px;line-height:1.7}
+.footer-social{display:flex;gap:12px;margin-top:24px}
+.footer-social a{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:.4s var(--ease)}
+.footer-social a:hover{background:var(--cream);border-color:var(--cream)}
+.footer-social a:hover svg{stroke:var(--choc-900)}
+.footer-social svg{width:18px;height:18px;stroke:var(--cream)}
+.footer-col h4{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;font-weight:700}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:13px}
+.footer-col a{color:var(--cream-lt);font-size:14.5px;transition:color .3s ease}
+.footer-col a:hover{color:var(--cream)}
+.footer-wordmark{padding:50px 0 30px;text-align:center;overflow:hidden}
+.footer-wordmark span{font-size:clamp(60px,20vw,300px);font-weight:900;letter-spacing:-.05em;line-height:.8;color:transparent;-webkit-text-stroke:1px rgba(231,193,136,.14);display:block}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:24px 0 40px;border-top:1px solid var(--line);font-size:13px;color:rgba(240,218,178,.6)}
+.footer-bottom a:hover{color:var(--cream)}
+
+/* ============================================================
+   CART DRAWER
+   ============================================================ */
+.overlay{position:fixed;inset:0;background:rgba(11,6,2,.6);backdrop-filter:blur(3px);z-index:1100;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s ease}
+.overlay.open{opacity:1;visibility:visible}
+.drawer{
+  position:fixed;top:0;right:0;height:100%;width:min(440px,100%);z-index:1200;
+  background:linear-gradient(180deg,#241407,#160B05);border-left:1px solid var(--line);
+  transform:translateX(100%);transition:transform .55s var(--ease-out);
+  display:flex;flex-direction:column;
+}
+.drawer.open{transform:translateX(0)}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;padding:26px 26px 20px;border-bottom:1px solid var(--line)}
+.drawer-head h3{font-size:22px;letter-spacing:-.01em}
+.drawer-head .x{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:.35s var(--ease)}
+.drawer-head .x:hover{background:rgba(231,193,136,.08);border-color:var(--cream)}
+.drawer-head .x svg{width:18px;height:18px;stroke:var(--cream)}
+.drawer-body{flex:1;overflow-y:auto;padding:10px 26px}
+.cart-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;color:var(--cream-lt);gap:18px;padding:40px 0}
+.cart-empty svg{width:54px;height:54px;stroke:var(--gold);opacity:.6}
+.cart-empty p{font-size:15px}
+.cart-empty .ce-sub{font-size:13px;opacity:.7}
+.cart-item{display:flex;gap:16px;padding:20px 0;border-bottom:1px solid var(--line)}
+.cart-item .thumb{width:72px;height:72px;border-radius:12px;flex:none;display:grid;place-items:center;background:radial-gradient(120% 110% at 50% 20%,#3B2414,#160B05);border:1px solid var(--line)}
+.cart-item .thumb svg{width:60%}
+.cart-item .ci-main{flex:1;min-width:0}
+.cart-item h4{font-size:16px;color:var(--cream);letter-spacing:-.01em;margin-bottom:3px}
+.cart-item .ci-price{font-size:13px;color:var(--gold);font-weight:700}
+.qty{display:inline-flex;align-items:center;gap:0;margin-top:12px;border:1px solid var(--line);border-radius:100px;overflow:hidden}
+.qty button{width:30px;height:30px;display:grid;place-items:center;color:var(--cream);font-size:16px;font-weight:700;transition:background .3s ease}
+.qty button:hover{background:rgba(231,193,136,.1)}
+.qty .q{min-width:32px;text-align:center;font-size:14px;font-weight:700;color:var(--cream)}
+.ci-right{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between}
+.ci-total{font-size:15px;font-weight:800;color:var(--cream)}
+.ci-remove{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(240,218,178,.55);transition:color .3s ease}
+.ci-remove:hover{color:var(--pist)}
+.drawer-foot{padding:24px 26px 28px;border-top:1px solid var(--line);background:rgba(22,11,5,.5)}
+.subtotal{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.subtotal .sl{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--cream-lt);font-weight:600}
+.subtotal .sv{font-size:26px;font-weight:800;color:var(--cream);letter-spacing:-.02em}
+.ship-note{font-size:12.5px;color:rgba(240,218,178,.6);margin-bottom:18px}
+.checkout{width:100%;background:var(--cream);color:var(--choc-900);padding:18px;border-radius:14px;font-weight:800;font-size:14px;letter-spacing:.06em;text-transform:uppercase;transition:transform .4s var(--ease-out),background .4s ease}
+.checkout:hover{background:var(--pist)}
+.checkout:active{transform:scale(.98)}
+.checkout:disabled{opacity:.4;cursor:not-allowed}
+.checkout-msg{text-align:center;margin-top:14px;font-size:13px;color:var(--pist);min-height:18px;font-weight:600}
+
+/* ============================================================
+   Hero background photo
+   ============================================================ */
+.hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden;background:#160B05}
+.hero-bg img{width:100%;height:100%;object-fit:cover;opacity:.30;filter:saturate(.95) contrast(1.03)}
+.hero-bg::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(120% 90% at 80% 8%, rgba(114,69,40,.55) 0%, transparent 52%),
+  radial-gradient(90% 80% at 6% 92%, rgba(169,189,110,.10) 0%, transparent 50%),
+  linear-gradient(160deg, rgba(22,11,5,.82) 0%, rgba(36,20,7,.78) 52%, rgba(22,11,5,.96) 100%)}
+img.lazy-img{opacity:0;transition:opacity .7s ease}
+img.lazy-img.loaded{opacity:1}
+
+/* ============================================================
+   Reveal animations
+   ============================================================ */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+.reveal.in{opacity:1;transform:none}
+.reveal-d1{transition-delay:.08s}
+.reveal-d2{transition-delay:.16s}
+.reveal-d3{transition-delay:.24s}
+.reveal-d4{transition-delay:.32s}
+
+.hero-anim{opacity:0;transform:translateY(40px)}
+.loaded .hero-anim{opacity:1;transform:none;transition:opacity 1s var(--ease-out),transform 1s var(--ease-out)}
+.loaded .ha1{transition-delay:.15s}
+.loaded .ha2{transition-delay:.30s}
+.loaded .ha3{transition-delay:.45s}
+.loaded .ha4{transition-delay:.60s}
+.loaded .ha5{transition-delay:.75s}
+.hero-visual.hero-anim{transform:scale(.9) translateY(30px)}
+.loaded .hero-visual.hero-anim{transform:none}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width:1000px){
+  .hero-grid{grid-template-columns:1fr;gap:10px}
+  .hero-visual{order:-1;margin-bottom:10px}
+  .hero-bar{width:min(74vw,420px)}
+  .rot-text,.hero-visual .ring{width:min(86vw,460px)}
+  .story-grid{grid-template-columns:1fr;gap:40px}
+  .story-visual{aspect-ratio:16/11;max-height:420px}
+  .pillars{grid-template-columns:1fr;gap:18px}
+  .steps{grid-template-columns:1fr 1fr}
+  .step{border-bottom:1px solid var(--line)}
+  .step:nth-child(even){border-right:none}
+  .stats-grid{grid-template-columns:1fr 1fr;gap:40px 20px}
+  .footer-top{grid-template-columns:1fr 1fr;gap:36px}
+  .footer-brand{grid-column:1/-1}
+}
+@media (max-width:760px){
+  .nav-links,.cart-btn .lbl{display:none}
+  .burger{display:flex}
+  .nav-links{
+    position:fixed;top:0;right:0;height:100vh;width:min(320px,86%);
+    background:linear-gradient(180deg,#241407,#160B05);border-left:1px solid var(--line);
+    flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;padding:0 40px;
+    transform:translateX(100%);transition:transform .5s var(--ease-out);z-index:999;
+  }
+  .nav-links.open{display:flex;transform:translateX(0)}
+  .nav-links a{font-size:22px;padding:14px 0}
+  .nav-links a::after{display:none}
+  .products{grid-template-columns:1fr}
+  .hero h1{font-size:clamp(42px,12vw,68px)}
+  .hero-meta{gap:18px;flex-wrap:wrap}
+  .step{padding:30px 18px 10px}
+  .footer-top{grid-template-columns:1fr 1fr}
+}
+@media (max-width:430px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .footer-top{grid-template-columns:1fr}
+  .hero-cta .btn{width:100%}
+}
+
+/* ============================================================
+   REAL IMAGERY (Pexels — free commercial license)
+   ============================================================ */
+.cover-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1}
+.cover-photo.img-fail{display:none}
+
+/* cinematic full-bleed band */
+.cinematic{position:relative;min-height:70vh;display:flex;align-items:center;overflow:hidden;background:linear-gradient(135deg,#241407,#160B05)}
+.cinematic .cover-photo{z-index:0}
+.cin-scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(15,8,3,.94) 0%,rgba(22,11,5,.72) 46%,rgba(22,11,5,.34) 100%),linear-gradient(0deg,rgba(15,8,3,.55),transparent 55%)}
+.cinematic .wrap{position:relative;z-index:2;width:100%}
+.cin-inner{max-width:660px}
+.cinematic h2{font-size:clamp(32px,5.2vw,66px);letter-spacing:-.03em;margin:18px 0 18px;color:var(--cream-50)}
+.cinematic h2 em{font-family:var(--ff-serif);font-style:italic;font-weight:600;color:var(--pist)}
+.cinematic p{color:var(--cream-lt);font-size:clamp(15px,1.6vw,19px);max-width:520px;line-height:1.7}
+
+/* pillar image-top cards */
+.pillar{padding:0;overflow:hidden}
+.pillar-img{position:relative;height:200px;overflow:hidden;background:linear-gradient(135deg,#3B2414,#160B05)}
+.pillar-img .cover-photo{transition:transform .7s var(--ease-out)}
+.pillar:hover .pillar-img .cover-photo{transform:scale(1.06)}
+.pillar-img::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(22,11,5,.05) 40%,rgba(22,11,5,.6))}
+.pillar-img .num{position:absolute;top:14px;right:16px;z-index:3;font-size:12.5px;font-weight:800;color:var(--cream);letter-spacing:.08em;background:rgba(22,11,5,.55);backdrop-filter:blur(4px);padding:5px 11px;border-radius:100px;opacity:1}
+.pillar-c{padding:28px 30px 34px}
+.pillar-c h3{font-size:22px;margin-bottom:11px;letter-spacing:-.01em}
+.pillar-c p{color:var(--cream-lt);font-size:14.5px;line-height:1.7}
+
+/* process visual */
+.process-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,5vw,72px);align-items:center;margin-bottom:clamp(44px,5vw,72px)}
+.proc-text h2{font-size:clamp(32px,5vw,64px);letter-spacing:-.03em;margin:16px 0 18px}
+.proc-text p{color:var(--cream-lt);font-size:clamp(15px,1.5vw,18px);max-width:460px;line-height:1.7}
+.proc-visual{position:relative;aspect-ratio:5/4;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(135deg,#3B2414,#160B05)}
+.proc-visual::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(160deg,transparent 48%,rgba(22,11,5,.55))}
+.proc-tag{position:absolute;left:20px;bottom:20px;z-index:3;background:rgba(22,11,5,.62);border:1px solid var(--line);backdrop-filter:blur(6px);border-radius:12px;padding:12px 16px}
+.proc-tag .pt1{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.proc-tag .pt2{font-family:var(--ff-serif);font-style:italic;font-size:18px;color:var(--cream);margin-top:2px}
+
+/* gallery strip */
+.gallery{background:var(--choc-900);padding:clamp(34px,5vw,70px) 0}
+.gallery .wrap{padding-inline:var(--pad)}
+.gallery-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:30px;flex-wrap:wrap}
+.gallery-head h2{font-size:clamp(26px,3.6vw,46px);letter-spacing:-.02em}
+.gallery-head p{color:var(--cream-lt);font-size:14.5px;max-width:340px}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.gphoto{position:relative;aspect-ratio:4/5;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(135deg,#3B2414,#160B05)}
+.gphoto .cover-photo{transition:transform .8s var(--ease-out)}
+.gphoto:hover .cover-photo{transform:scale(1.08)}
+.gphoto::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(114,69,40,.08),rgba(22,11,5,.42))}
+
+/* product real photo over svg fallback */
+.product-media img.pphoto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;transition:transform .6s var(--ease-out)}
+.product-media img.pphoto.img-fail{display:none}
+.product:hover .product-media img.pphoto{transform:scale(1.06)}
+.pm-scrim{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(22,11,5,.04),rgba(22,11,5,.32))}
+
+/* story photo over svg fallback */
+.story-visual{display:block;padding:0}
+.story-visual .cover-photo{z-index:1}
+.story-fallback{position:absolute;inset:0;display:grid;place-items:center;padding:8%;z-index:0}
+.story-visual::after{z-index:2}
+.story-badge{z-index:3}
+
+@media (max-width:1000px){
+  .process-grid{grid-template-columns:1fr;gap:30px}
+  .proc-visual{max-height:380px;aspect-ratio:16/11}
+  .gallery-grid{grid-template-columns:1fr 1fr;gap:12px}
+  .cinematic{min-height:58vh}
+}
+@media (max-width:560px){
+  .gallery-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .gphoto{aspect-ratio:1}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
+  .reveal,.hero-anim{opacity:1 !important;transform:none !important}
+  .rot-text{animation:none}
+  .marquee-track{animation:none;transform:translateX(0)}
+}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============================= NAV ============================= -->
+<nav class="nav" id="nav">
+  <a href="#top" class="logo" aria-label="Bruwon home">Bruwon<sup>™</sup></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#story">Story</a></li>
+    <li><a href="#shop">Shop</a></li>
+    <li><a href="#process">Process</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="cart-btn" id="openCart" aria-label="Open bag">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="lbl">Bag</span>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<span id="top"></span>
+
+<!-- ============================= HERO ============================= -->
+<header class="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <img class="lazy-img" src="https://images.pexels.com/photos/6261691/pexels-photo-6261691.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" loading="eager" decoding="async" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
+  </div>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow hero-anim ha1">Pistachio · Kunafa · Chocolate</span>
+      <h1 class="hero-anim ha2">A bar built<br>to be <span class="gleam">broken.</span></h1>
+      <p class="hero-sub hero-anim ha3">Toasted kunafa, single-origin chocolate and a molten core of real pistachio. Snap it open — the green speaks for itself.</p>
+      <div class="hero-cta hero-anim ha4">
+        <a href="#shop" class="btn btn--solid">Taste the signature <span class="arrow">→</span></a>
+        <a href="#story" class="btn btn--ghost">Our story</a>
+      </div>
+      <div class="hero-meta hero-anim ha5">
+        <div><span class="n" data-count="48" data-suffix="h">0</span><span class="l">Hand toasted</span></div>
+        <div><span class="n" data-count="100" data-suffix="%">0</span><span class="l">Real pistachio</span></div>
+        <div><span class="n" data-count="2" data-suffix="">0</span><span class="l">Signature bars</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual hero-anim">
+      <div class="ring" aria-hidden="true"></div>
+      <svg class="rot-text" viewBox="0 0 300 300" aria-hidden="true">
+        <defs><path id="circlePath" d="M150,150 m-118,0 a118,118 0 1,1 236,0 a118,118 0 1,1 -236,0"/></defs>
+        <text><textPath href="#circlePath" startOffset="0">BRUWON™ · PISTACHIO KUNAFA · SMALL BATCH · BRUWON™ · CRACK INTO IT · </textPath></text>
+      </svg>
+      <!-- SIGNATURE: broken bar revealing pistachio-kunafa cross-section -->
+      <svg class="hero-bar" viewBox="0 0 520 470" role="img" aria-label="A Bruwon chocolate bar with a chunk broken away, revealing a green pistachio and golden kunafa filling, with a gooey pistachio pull between them.">
+        <defs>
+          <linearGradient id="chocTop" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#5A3A22"/><stop offset=".5" stop-color="#3F2716"/><stop offset="1" stop-color="#2A1810"/>
+          </linearGradient>
+          <linearGradient id="chocSide" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#3A2414"/><stop offset="1" stop-color="#1C1009"/>
+          </linearGradient>
+          <linearGradient id="gloss" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#fff" stop-opacity=".34"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="pistG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#C7D88E"/><stop offset=".5" stop-color="#A9BD6E"/><stop offset="1" stop-color="#7F9650"/>
+          </linearGradient>
+          <linearGradient id="pistPull" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#B6CA7C"/><stop offset="1" stop-color="#8DA459"/>
+          </linearGradient>
+          <radialGradient id="pistSeed" cx=".4" cy=".35" r=".8">
+            <stop offset="0" stop-color="#C2D588"/><stop offset="1" stop-color="#84994F"/>
+          </radialGradient>
+          <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="6"/></filter>
+        </defs>
+
+        <!-- ground shadow -->
+        <ellipse cx="260" cy="430" rx="190" ry="26" fill="#000" opacity=".45" filter="url(#soft)"/>
+
+        <!-- MAIN BAR (front-facing, tilted) -->
+        <g transform="rotate(-7 250 250)">
+          <!-- depth side -->
+          <rect x="60" y="118" width="300" height="232" rx="22" fill="url(#chocSide)"/>
+          <!-- top face -->
+          <rect x="60" y="106" width="300" height="232" rx="22" fill="url(#chocTop)"/>
+          <!-- embossed squares -->
+          <g stroke="#1F1208" stroke-width="3" opacity=".55" fill="none">
+            <line x1="135" y1="118" x2="135" y2="326"/><line x1="210" y1="118" x2="210" y2="326"/><line x1="285" y1="118" x2="285" y2="326"/>
+            <line x1="72" y1="172" x2="348" y2="172"/><line x1="72" y1="222" x2="348" y2="222"/><line x1="72" y1="272" x2="348" y2="272"/>
+          </g>
+          <g stroke="#7A5232" stroke-width="1.4" opacity=".5" fill="none">
+            <line x1="137" y1="118" x2="137" y2="326"/><line x1="212" y1="118" x2="212" y2="326"/>
+            <line x1="74" y1="174" x2="348" y2="174"/><line x1="74" y1="224" x2="348" y2="224"/>
+          </g>
+          <!-- broken bite on top-right: a notch revealing green -->
+          <path d="M285 106 q22 26 50 8 v0 q0 0 0 0 v24 q-30 14 -50 -4 q-20 18 -42 2 q14 -22 42 -30 Z" fill="url(#pistG)" opacity=".9"/>
+          <path d="M283 110 q24 22 52 6 v22 q-28 12 -50 -4 q-18 16 -40 0 q16 -18 38 -24 Z" fill="#6E8245" opacity=".5"/>
+          <!-- gloss -->
+          <path d="M76 116 q120 -22 270 6 q-4 30 -150 26 q-90 -2 -120 -32 Z" fill="url(#gloss)"/>
+        </g>
+
+        <!-- GOOEY PISTACHIO PULL strands -->
+        <g fill="none" stroke="url(#pistPull)" stroke-linecap="round">
+          <path d="M320 150 C 350 175, 360 205, 392 232" stroke-width="13"/>
+          <path d="M312 168 C 345 192, 355 222, 384 252" stroke-width="9" opacity=".85"/>
+          <path d="M330 142 C 360 160, 372 188, 402 214" stroke-width="7" opacity=".7"/>
+        </g>
+
+        <!-- LIFTED CHUNK (cross-section facing us) -->
+        <g transform="rotate(13 410 230)">
+          <!-- chunk body / side depth -->
+          <rect x="360" y="150" width="116" height="118" rx="14" fill="url(#chocSide)"/>
+          <!-- cross-section face -->
+          <g>
+            <rect x="360" y="150" width="116" height="118" rx="14" fill="url(#chocTop)"/>
+            <!-- chocolate top band -->
+            <rect x="360" y="150" width="116" height="22" fill="#3A2414"/>
+            <!-- pistachio cream band -->
+            <rect x="360" y="170" width="116" height="46" fill="url(#pistG)"/>
+            <!-- pistachio speckle -->
+            <g fill="#5C7039" opacity=".6">
+              <circle cx="378" cy="184" r="3"/><circle cx="402" cy="196" r="2.4"/><circle cx="424" cy="183" r="3.2"/><circle cx="448" cy="200" r="2.6"/><circle cx="392" cy="206" r="2.2"/><circle cx="438" cy="188" r="2"/>
+            </g>
+            <!-- kunafa golden strands -->
+            <g stroke="#CBA15A" stroke-width="2.4" fill="none" opacity=".95">
+              <path d="M362 224 q14 -7 28 0 t28 0 t28 0 t12 0"/>
+              <path d="M362 232 q14 7 28 0 t28 0 t28 0 t12 0"/>
+              <path d="M362 240 q14 -6 28 0 t28 0 t28 0 t12 0"/>
+            </g>
+            <g stroke="#E0BE7E" stroke-width="1.2" fill="none" opacity=".8">
+              <path d="M362 228 q14 6 28 0 t28 0 t28 0 t12 0"/>
+              <path d="M362 236 q14 -6 28 0 t28 0 t28 0 t12 0"/>
+            </g>
+            <!-- bottom chocolate -->
+            <rect x="360" y="250" width="116" height="18" fill="#2A1810"/>
+            <!-- rounded mask corners using bg -->
+            <rect x="360" y="150" width="116" height="118" rx="14" fill="none" stroke="#241407" stroke-width="0"/>
+          </g>
+          <!-- chunk gloss -->
+          <path d="M368 156 q40 -8 100 4 q-4 12 -52 12 q-34 0 -48 -16Z" fill="url(#gloss)"/>
+        </g>
+
+        <!-- whole pistachios scattered -->
+        <g>
+          <g transform="translate(120 388) rotate(-18)"><ellipse cx="0" cy="0" rx="17" ry="12" fill="url(#pistSeed)"/><path d="M-15 0 q15 -7 30 0" stroke="#5C7039" stroke-width="2" fill="none"/></g>
+          <g transform="translate(420 392) rotate(22)"><ellipse cx="0" cy="0" rx="15" ry="11" fill="url(#pistSeed)"/><path d="M-13 0 q13 -6 26 0" stroke="#5C7039" stroke-width="2" fill="none"/></g>
+          <g transform="translate(68 300) rotate(10)"><ellipse cx="0" cy="0" rx="12" ry="9" fill="url(#pistSeed)"/></g>
+        </g>
+        <!-- gold kunafa crumbs -->
+        <g fill="#CBA15A" opacity=".85">
+          <rect x="180" y="408" width="16" height="4" rx="2" transform="rotate(20 188 410)"/>
+          <rect x="360" y="402" width="14" height="3.5" rx="2" transform="rotate(-15 367 404)"/>
+          <rect x="250" y="416" width="12" height="3.5" rx="2" transform="rotate(35 256 418)"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="scroll-cue hero-anim ha5" aria-hidden="true">
+    <span class="mouse"><i></i></span>
+    Scroll
+  </div>
+</header>
+
+<!-- ============================= MARQUEE ============================= -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="marquee">
+    <span>Pistachio Kunafa<i class="dot"></i>Built To Be Broken<i class="dot"></i>Single Origin<i class="dot"></i>Small Batch<i class="dot"></i>The Green Inside<i class="dot"></i>Crack Into It<i class="dot"></i></span>
+    <span>Pistachio Kunafa<i class="dot"></i>Built To Be Broken<i class="dot"></i>Single Origin<i class="dot"></i>Small Batch<i class="dot"></i>The Green Inside<i class="dot"></i>Crack Into It<i class="dot"></i></span>
+  </div>
+</div>
+
+<!-- ============================= SHOP ============================= -->
+<section class="section shop" id="shop">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow">The collection</span>
+      <h2>Two bars.<br>One obsession.</h2>
+      <p>Choose your shell. The molten pistachio-kunafa core stays exactly the same — non-negotiable.</p>
+    </div>
+
+    <div class="products">
+      <!-- PRODUCT 1 -->
+      <article class="product reveal" data-id="classic" data-name="The Original — Milk" data-price="24">
+        <div class="product-media">
+          <span class="tag">Bestseller</span>
+          <div class="pglow" aria-hidden="true"></div>
+          <svg class="pbar" viewBox="0 0 280 200" aria-hidden="true">
+            <defs>
+              <linearGradient id="m1t" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7A4E2E"/><stop offset="1" stop-color="#4A2E18"/></linearGradient>
+              <linearGradient id="m1g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".3"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+              <linearGradient id="m1p" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C7D88E"/><stop offset="1" stop-color="#8DA459"/></linearGradient>
+            </defs>
+            <ellipse cx="140" cy="178" rx="110" ry="14" fill="#000" opacity=".35"/>
+            <g transform="rotate(-6 140 100)">
+              <rect x="40" y="46" width="200" height="116" rx="16" fill="#341F11"/>
+              <rect x="40" y="38" width="200" height="116" rx="16" fill="url(#m1t)"/>
+              <g stroke="#241407" stroke-width="2.4" opacity=".5"><line x1="90" y1="46" x2="90" y2="146"/><line x1="140" y1="46" x2="140" y2="146"/><line x1="190" y1="46" x2="190" y2="146"/><line x1="48" y1="86" x2="232" y2="86"/><line x1="48" y1="118" x2="232" y2="118"/></g>
+              <path d="M52 46 q90 -14 180 4 q-4 16 -100 14 q-60 -2 -80 -18Z" fill="url(#m1g)"/>
+            </g>
+            <!-- broken corner with green core -->
+            <g transform="rotate(16 235 150)">
+              <rect x="196" y="96" width="58" height="58" rx="9" fill="#2A1810"/>
+              <rect x="196" y="96" width="58" height="12" fill="#4A2E18"/>
+              <rect x="196" y="108" width="58" height="22" fill="url(#m1p)"/>
+              <g stroke="#CBA15A" stroke-width="1.6" fill="none"><path d="M198 134 q12 -5 24 0 t24 0 t8 0"/><path d="M198 140 q12 5 24 0 t24 0 t8 0"/></g>
+              <rect x="196" y="144" width="58" height="10" fill="#241407"/>
+            </g>
+            <g fill="none" stroke="url(#m1p)" stroke-linecap="round"><path d="M210 100 C230 116 236 130 250 142" stroke-width="7"/><path d="M204 112 C222 126 228 138 242 150" stroke-width="4.5" opacity=".8"/></g>
+            <ellipse cx="78" cy="172" rx="11" ry="8" fill="url(#m1p)"/>
+          </svg>
+          <img class="pphoto" src="https://images.pexels.com/photos/35159780/pexels-photo-35159780.jpeg?auto=compress&cs=tinysrgb&w=900" alt="A milk chocolate bar broken open to reveal a green pistachio filling." loading="lazy" onerror="this.classList.add('img-fail')">
+          <div class="pm-scrim" aria-hidden="true"></div>
+        </div>
+        <div class="product-body">
+          <div class="row">
+            <h3>The Original</h3>
+            <span class="price">$24</span>
+          </div>
+          <p class="desc">Our signature 38% milk chocolate shell wrapped around a molten pistachio core, shot through with toasted kunafa. Smooth, nutty, dangerously snackable.</p>
+          <div class="notes"><span>Milk · 38%</span><span>110g bar</span><span>Crisp core</span></div>
+          <button class="add" data-add aria-label="Add The Original to bag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span>Add to bag</span></button>
+        </div>
+      </article>
+
+      <!-- PRODUCT 2 -->
+      <article class="product reveal reveal-d2" data-id="dark" data-name="Dark Royale — 70%" data-price="28">
+        <div class="product-media">
+          <span class="tag dark">Limited</span>
+          <div class="pglow" aria-hidden="true"></div>
+          <svg class="pbar" viewBox="0 0 280 200" aria-hidden="true">
+            <defs>
+              <linearGradient id="d1t" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3A2414"/><stop offset="1" stop-color="#180D06"/></linearGradient>
+              <linearGradient id="d1g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#CBA15A" stop-opacity=".5"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+              <linearGradient id="d1p" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C7D88E"/><stop offset="1" stop-color="#8DA459"/></linearGradient>
+            </defs>
+            <ellipse cx="140" cy="178" rx="110" ry="14" fill="#000" opacity=".4"/>
+            <g transform="rotate(-6 140 100)">
+              <rect x="40" y="46" width="200" height="116" rx="16" fill="#0F0804"/>
+              <rect x="40" y="38" width="200" height="116" rx="16" fill="url(#d1t)"/>
+              <g stroke="#0C0603" stroke-width="2.4" opacity=".6"><line x1="90" y1="46" x2="90" y2="146"/><line x1="140" y1="46" x2="140" y2="146"/><line x1="190" y1="46" x2="190" y2="146"/><line x1="48" y1="86" x2="232" y2="86"/><line x1="48" y1="118" x2="232" y2="118"/></g>
+              <path d="M52 46 q90 -14 180 4 q-4 16 -100 14 q-60 -2 -80 -18Z" fill="url(#d1g)"/>
+            </g>
+            <g transform="rotate(16 235 150)">
+              <rect x="196" y="96" width="58" height="58" rx="9" fill="#140A05"/>
+              <rect x="196" y="96" width="58" height="12" fill="#241407"/>
+              <rect x="196" y="108" width="58" height="22" fill="url(#d1p)"/>
+              <g stroke="#CBA15A" stroke-width="1.6" fill="none"><path d="M198 134 q12 -5 24 0 t24 0 t8 0"/><path d="M198 140 q12 5 24 0 t24 0 t8 0"/></g>
+              <rect x="196" y="144" width="58" height="10" fill="#0F0804"/>
+            </g>
+            <g fill="none" stroke="url(#d1p)" stroke-linecap="round"><path d="M210 100 C230 116 236 130 250 142" stroke-width="7"/><path d="M204 112 C222 126 228 138 242 150" stroke-width="4.5" opacity=".8"/></g>
+            <g fill="#CBA15A" opacity=".9"><rect x="70" y="168" width="12" height="3" rx="1.5" transform="rotate(20 76 170)"/><rect x="96" y="176" width="10" height="3" rx="1.5" transform="rotate(-12 100 178)"/></g>
+          </svg>
+          <img class="pphoto" src="https://images.pexels.com/photos/6167333/pexels-photo-6167333.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Gourmet dark chocolate bars arranged on a clean background." loading="lazy" onerror="this.classList.add('img-fail')">
+          <div class="pm-scrim" aria-hidden="true"></div>
+        </div>
+        <div class="product-body">
+          <div class="row">
+            <h3>Dark Royale</h3>
+            <span class="price">$28</span>
+          </div>
+          <p class="desc">A bold 70% dark single-origin shell with a clean, bitter snap that lets the pistachio sing. Deeper, grown-up, and gone before you know it.</p>
+          <div class="notes"><span>Dark · 70%</span><span>110g bar</span><span>Single origin</span></div>
+          <button class="add" data-add aria-label="Add Dark Royale to bag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span>Add to bag</span></button>
+        </div>
+      </article>
+    </div>
+
+    <p class="shop-note reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M5 12l5 5 9-11"/></svg>
+      Free chilled shipping over $60 · Ships cold to keep the snap
+    </p>
+  </div>
+</section>
+
+<!-- ============================= STORY ============================= -->
+<section class="section story" id="story">
+  <div class="wrap story-grid">
+    <div class="story-text reveal">
+      <span class="eyebrow">Our obsession</span>
+      <h2>We chase the<br>perfect crack.</h2>
+      <p class="lead">It starts with a sound — the dry snap of chocolate giving way to a soft, green centre.</p>
+      <p>Bruwon began in a small kitchen with one stubborn question: could a chocolate bar hold the warmth of fresh kunafa and the richness of pistachio without losing its snap? We toast every strand by hand, fold it through a pistachio cream we make from scratch, and seal it inside a thin shell of single-origin chocolate.</p>
+      <p>No shortcuts, no fillers, no pretending. Just the most honest version of a flavour the world fell in love with — made slowly, in batches small enough to taste every one.</p>
+      <div class="sign">— The Bruwon kitchen</div>
+    </div>
+    <div class="story-visual reveal reveal-d2">
+      <img class="cover-photo" src="assets/img/image.jpg" alt="Bruwon pistachio kunafa chocolate bar." loading="lazy" onerror="this.classList.add('img-fail')">
+      <div class="story-fallback" aria-hidden="true">
+      <svg viewBox="0 0 340 400" style="width:90%">
+        <defs>
+          <linearGradient id="sjar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C7D88E"/><stop offset="1" stop-color="#7F9650"/></linearGradient>
+          <radialGradient id="sseed" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#C2D588"/><stop offset="1" stop-color="#84994F"/></radialGradient>
+          <linearGradient id="scream" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BFD382"/><stop offset="1" stop-color="#90A75A"/></linearGradient>
+          <filter id="ssoft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5"/></filter>
+        </defs>
+
+        <!-- ambient floating pistachios + kunafa across full frame -->
+        <g opacity=".9">
+          <g transform="translate(58 70) rotate(-20)"><ellipse rx="16" ry="11" fill="url(#sseed)"/><path d="M-14 0 q14 -6 28 0" stroke="#5C7039" stroke-width="2" fill="none"/></g>
+          <g transform="translate(282 96) rotate(28)"><ellipse rx="14" ry="10" fill="url(#sseed)"/><path d="M-12 0 q12 -5 24 0" stroke="#5C7039" stroke-width="2" fill="none"/></g>
+          <g transform="translate(250 56) rotate(-8)"><ellipse rx="11" ry="8" fill="#A9BD6E"/></g>
+        </g>
+        <!-- kunafa strands drifting top -->
+        <g stroke="#CBA15A" stroke-width="2" fill="none" opacity=".7">
+          <path d="M70 130 q50 -20 100 0 t100 0"/>
+          <path d="M60 146 q60 18 120 0 t120 0" opacity=".6"/>
+        </g>
+
+        <!-- bowl shadow -->
+        <ellipse cx="170" cy="338" rx="135" ry="30" fill="#000" opacity=".45" filter="url(#ssoft)"/>
+
+        <!-- bowl -->
+        <path d="M48 232 q122 56 244 0 l-26 86 q-96 40 -192 0 Z" fill="#241407"/>
+        <path d="M48 232 q122 56 244 0 q-122 50 -244 0 Z" fill="url(#scream)"/>
+        <!-- cream surface sheen + swirl -->
+        <path d="M70 240 q100 38 200 0" stroke="#D9E6AE" stroke-width="3" fill="none" opacity=".4"/>
+        <path d="M120 234 q50 -26 100 0" stroke="#E7C188" stroke-width="2.5" fill="none" opacity=".45"/>
+        <!-- kunafa nest mounded on the cream -->
+        <g stroke="#CBA15A" stroke-width="2.6" fill="none" opacity=".95">
+          <path d="M112 224 q58 -26 116 0"/><path d="M104 214 q66 -22 132 0"/><path d="M124 230 q46 -16 92 0"/>
+        </g>
+        <g stroke="#E0BE7E" stroke-width="1.3" fill="none" opacity=".8">
+          <path d="M110 219 q58 -20 116 0"/><path d="M120 227 q50 -16 100 0"/>
+        </g>
+        <!-- whole pistachios crowning the bowl -->
+        <g>
+          <ellipse cx="140" cy="208" rx="14" ry="10" fill="url(#sseed)"/>
+          <ellipse cx="196" cy="212" rx="13" ry="9" fill="url(#sseed)"/>
+          <ellipse cx="168" cy="200" rx="12" ry="9" fill="#A9BD6E"/>
+        </g>
+        <!-- a slow drip down the side -->
+        <path d="M276 286 q9 26 0 46 q-13 -7 -11 -25 q1 -13 11 -21Z" fill="url(#sjar)"/>
+      </svg>
+      </div>
+      <div class="story-badge">
+        <div class="b1">Est. small-batch</div>
+        <div class="b2">Made by hand, daily</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================= PROCESS ============================= -->
+<section class="section process" id="process">
+  <div class="wrap">
+    <div class="process-grid">
+      <div class="proc-text reveal">
+        <span class="eyebrow">From tray to bar</span>
+        <h2>How it's made.</h2>
+        <p>Four steps, no rushing. This is the order it actually happens in the kitchen — slow toasting, hand-folding, and a final temper that gives every bar its clean snap.</p>
+      </div>
+      <div class="proc-visual reveal reveal-d2">
+        <img class="cover-photo" src="https://images.pexels.com/photos/6036005/pexels-photo-6036005.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="A chocolatier pouring glossy melted chocolate from a steel bowl in a kitchen." loading="lazy" onerror="this.classList.add('img-fail')">
+        <div class="proc-tag"><div class="pt1">In the kitchen</div><div class="pt2">Tempered by hand</div></div>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><span class="dot"></span><div class="sn">01</div><h3>Toast</h3><p>Kunafa strands hit the trays and toast low and slow until they're deep gold and crisp through.</p></div>
+      <div class="step reveal reveal-d1"><span class="dot"></span><div class="sn">02</div><h3>Fold</h3><p>We grind pistachios into cream and fold the cooled kunafa through it for crunch in every bite.</p></div>
+      <div class="step reveal reveal-d2"><span class="dot"></span><div class="sn">03</div><h3>Enrobe</h3><p>Tempered chocolate is cast into moulds, filled with the core, and capped with a thin glossy shell.</p></div>
+      <div class="step reveal reveal-d3"><span class="dot"></span><div class="sn">04</div><h3>Set</h3><p>Bars cool until they snap clean, then they're wrapped, boxed and sent out cold the same week.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= STATS ============================= -->
+<section class="section stats">
+  <div class="wrap stats-grid">
+    <div class="stat reveal"><div class="v"><span data-count="48">0</span><span class="u">h</span></div><div class="k">Toast time</div></div>
+    <div class="stat reveal reveal-d1"><div class="v"><span data-count="3">0</span></div><div class="k">Pure ingredients</div></div>
+    <div class="stat reveal reveal-d2"><div class="v"><span data-count="100">0</span><span class="u">%</span></div><div class="k">Real pistachio</div></div>
+    <div class="stat reveal reveal-d3"><div class="v"><span data-count="0">0</span></div><div class="k">Fillers or dyes</div></div>
+  </div>
+</section>
+
+<!-- ============================= QUOTE ============================= -->
+<section class="section quote">
+  <div class="wrap">
+    <span class="mark reveal" aria-hidden="true">&ldquo;</span>
+    <blockquote class="reveal reveal-d1">I cracked it open and actually <em>gasped.</em> The kunafa still crunches and the pistachio is the real thing — this is the one to beat.</blockquote>
+    <div class="who reveal reveal-d2">Reema A.<span>verified Bruwon regular</span></div>
+  </div>
+</section>
+
+<!-- ============================= FOOTER ============================= -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="logo">Bruwon<sup>™</sup></span>
+        <p>A bar built to be broken. Pistachio, kunafa and single-origin chocolate, handcrafted in small batches.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linejoin="round"><path d="M15 4c.5 3 2.5 4.5 5 4.7V12c-2 0-3.8-.7-5-1.7V16a5 5 0 1 1-5-5v3a2 2 0 1 0 2 2V4Z"/></svg></a>
+          <a href="#" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul><li><a href="#shop">The Original</a></li><li><a href="#shop">Dark Royale</a></li><li><a href="#shop">Gift box</a></li><li><a href="#shop">Subscribe & save</a></li></ul>
+      </div>
+      <div class="footer-col">
+        <h4>Bruwon</h4>
+        <ul><li><a href="#story">Our story</a></li><li><a href="#process">How it's made</a></li><li><a href="#">Ingredients</a></li></ul>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul><li><a href="#">Shipping</a></li><li><a href="#">Storage & care</a></li><li><a href="#">Allergens</a></li><li><a href="#">Contact</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true"><span>Bruwon</span></div>
+    <div class="footer-bottom">
+      <span>© 2026 Bruwon™. All rights reserved.</span>
+      <span>Made by hand · Shipped cold · <a href="#top">Back to top ↑</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================= CART ============================= -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Shopping bag" aria-hidden="true">
+  <div class="drawer-head">
+    <h3>Your bag</h3>
+    <button class="x" id="closeCart" aria-label="Close bag"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+  <div class="drawer-body" id="drawerBody">
+    <div class="cart-empty" id="cartEmpty">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <p>Your bag is empty</p>
+      <span class="ce-sub">Add a bar and let the cracking begin.</span>
+    </div>
+  </div>
+  <div class="drawer-foot" id="drawerFoot" style="display:none">
+    <div class="subtotal"><span class="sl">Subtotal</span><span class="sv" id="subtotal">$0</span></div>
+    <p class="ship-note">Shipping & taxes calculated at checkout.</p>
+    <button class="checkout" id="checkout">Checkout</button>
+    <div class="checkout-msg" id="checkoutMsg" role="status"></div>
+  </div>
+</aside>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---- page load ---- */
+  window.addEventListener("load", function(){ document.body.classList.add("loaded"); });
+  setTimeout(function(){ document.body.classList.add("loaded"); }, 600);
+
+  /* ---- nav scroll state ---- */
+  var nav = document.getElementById("nav");
+  var lastY = -1;
+  function onScroll(){
+    var y = window.scrollY;
+    if(y === lastY) return; lastY = y;
+    nav.classList.toggle("scrolled", y > 40);
+  }
+  window.addEventListener("scroll", function(){ requestAnimationFrame(onScroll); }, {passive:true});
+  onScroll();
+
+  /* ---- mobile menu ---- */
+  var burger = document.getElementById("burger");
+  var navLinks = document.getElementById("navLinks");
+  function closeMenu(){ navLinks.classList.remove("open"); burger.classList.remove("open"); burger.setAttribute("aria-expanded","false"); }
+  burger.addEventListener("click", function(){
+    var open = navLinks.classList.toggle("open");
+    burger.classList.toggle("open", open);
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  navLinks.querySelectorAll("a").forEach(function(a){ a.addEventListener("click", closeMenu); });
+
+  /* ---- reveal on scroll ---- */
+  var reveals = document.querySelectorAll(".reveal");
+  if("IntersectionObserver" in window && !reduce){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, {threshold:0.12, rootMargin:"0px 0px -8% 0px"});
+    reveals.forEach(function(el){ io.observe(el); });
+  } else {
+    reveals.forEach(function(el){ el.classList.add("in"); });
+  }
+
+  /* ---- count up ---- */
+  function animateCount(el){
+    var target = parseFloat(el.getAttribute("data-count"));
+    var suffix = el.getAttribute("data-suffix") || "";
+    if(reduce){ el.textContent = target + suffix; return; }
+    var dur = 1400, start = null;
+    function tick(ts){
+      if(!start) start = ts;
+      var p = Math.min((ts-start)/dur, 1);
+      var eased = 1 - Math.pow(1-p, 3);
+      var val = Math.round(target * eased);
+      el.textContent = val + suffix;
+      if(p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  var counters = document.querySelectorAll("[data-count]");
+  if("IntersectionObserver" in window){
+    var cio = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ animateCount(e.target); cio.unobserve(e.target); }
+      });
+    }, {threshold:0.6});
+    counters.forEach(function(el){ cio.observe(el); });
+  } else { counters.forEach(animateCount); }
+
+  /* ---- hero parallax ---- */
+  if(!reduce){
+    var bar = document.querySelector(".hero-bar");
+    var glow = document.querySelector(".hero-glow");
+    window.addEventListener("scroll", function(){
+      requestAnimationFrame(function(){
+        var y = window.scrollY;
+        if(y > window.innerHeight) return;
+        if(bar) bar.style.transform = "translateY(" + (y*0.12) + "px)";
+        if(glow) glow.style.transform = "translateY(" + (y*0.2) + "px)";
+      });
+    }, {passive:true});
+  }
+
+  /* ============== CART ============== */
+  var CART = {}; // id -> {name, price, qty, src}
+  var overlay = document.getElementById("overlay");
+  var drawer = document.getElementById("drawer");
+  var drawerBody = document.getElementById("drawerBody");
+  var drawerFoot = document.getElementById("drawerFoot");
+  var cartEmpty = document.getElementById("cartEmpty");
+  var cartCount = document.getElementById("cartCount");
+  var subtotalEl = document.getElementById("subtotal");
+  var checkoutMsg = document.getElementById("checkoutMsg");
+
+  function openCart(){ overlay.classList.add("open"); drawer.classList.add("open"); drawer.setAttribute("aria-hidden","false"); }
+  function closeCart(){ overlay.classList.remove("open"); drawer.classList.remove("open"); drawer.setAttribute("aria-hidden","true"); }
+  document.getElementById("openCart").addEventListener("click", openCart);
+  document.getElementById("closeCart").addEventListener("click", closeCart);
+  overlay.addEventListener("click", closeCart);
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeCart(); });
+
+  function fmt(n){ return "$" + n.toFixed(n % 1 === 0 ? 0 : 2); }
+
+  function totalItems(){ var t=0; for(var k in CART) t += CART[k].qty; return t; }
+
+  function updateBadge(){
+    var n = totalItems();
+    cartCount.textContent = n;
+    cartCount.classList.toggle("show", n > 0);
+    cartCount.classList.remove("bump"); void cartCount.offsetWidth; cartCount.classList.add("bump");
+  }
+
+  function render(){
+    var keys = Object.keys(CART);
+    // clear item rows
+    drawerBody.querySelectorAll(".cart-item").forEach(function(n){ n.remove(); });
+    if(keys.length === 0){
+      cartEmpty.style.display = "flex";
+      drawerFoot.style.display = "none";
+      return;
+    }
+    cartEmpty.style.display = "none";
+    drawerFoot.style.display = "block";
+    var sub = 0;
+    keys.forEach(function(id){
+      var it = CART[id];
+      sub += it.price * it.qty;
+      var row = document.createElement("div");
+      row.className = "cart-item";
+      row.innerHTML =
+        '<div class="thumb">'+ it.src +'</div>'+
+        '<div class="ci-main">'+
+          '<h4>'+ it.name +'</h4>'+
+          '<div class="ci-price">'+ fmt(it.price) +' each</div>'+
+          '<div class="qty">'+
+            '<button data-dec aria-label="Decrease quantity">−</button>'+
+            '<span class="q">'+ it.qty +'</span>'+
+            '<button data-inc aria-label="Increase quantity">+</button>'+
+          '</div>'+
+        '</div>'+
+        '<div class="ci-right">'+
+          '<div class="ci-total">'+ fmt(it.price*it.qty) +'</div>'+
+          '<button class="ci-remove" data-rem>Remove</button>'+
+        '</div>';
+      row.querySelector("[data-inc]").addEventListener("click", function(){ CART[id].qty++; updateBadge(); render(); });
+      row.querySelector("[data-dec]").addEventListener("click", function(){ CART[id].qty--; if(CART[id].qty<=0) delete CART[id]; updateBadge(); render(); });
+      row.querySelector("[data-rem]").addEventListener("click", function(){ delete CART[id]; updateBadge(); render(); });
+      drawerBody.insertBefore(row, cartEmpty);
+    });
+    subtotalEl.textContent = fmt(sub);
+  }
+
+  document.querySelectorAll(".product").forEach(function(card){
+    var id = card.getAttribute("data-id");
+    var name = card.getAttribute("data-name");
+    var price = parseFloat(card.getAttribute("data-price"));
+    var svg = card.querySelector("svg.pbar").outerHTML;
+    card.querySelector("[data-add]").addEventListener("click", function(){
+      if(CART[id]) CART[id].qty++;
+      else CART[id] = { name:name, price:price, qty:1, src:svg };
+      updateBadge();
+      render();
+      openCart();
+      checkoutMsg.textContent = "";
+    });
+  });
+
+  document.getElementById("checkout").addEventListener("click", function(){
+    if(totalItems() === 0) return;
+    checkoutMsg.textContent = "This is a demo storefront — no payment is taken. 🍫";
+  });
+
+  /* ---- newsletter ---- */
+  var signup = document.getElementById("signup");
+  var ctaMsg = document.getElementById("ctaMsg");
+  signup.addEventListener("submit", function(e){
+    e.preventDefault();
+    var email = document.getElementById("email").value.trim();
+    var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    ctaMsg.textContent = ok ? "You're on the list — watch your inbox for the next crack." : "Hmm, that email doesn't look right. Try again?";
+    ctaMsg.style.color = ok ? "var(--pist)" : "var(--gold-lt)";
+    ctaMsg.classList.add("show");
+    if(ok) signup.reset();
+  });
+
+  /* ---- duplicate marquee for seamless loop if needed ---- */
+  // (already duplicated in markup)
+})();
+</script>
+</body>
+</html>
